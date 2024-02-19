@@ -1,4 +1,6 @@
-﻿namespace Legszegenyseg_20240212
+﻿using Microsoft.VisualBasic;
+
+namespace Legszegenyseg_20240212
 {
     internal class Program
     {
@@ -10,22 +12,24 @@
 
         }
 
-        static int F4(List<Legszennyezettseg> l)
-        {
-            var x = l.SelectMany(d => d.Orak).Max();
-            return x;
-        }
+        static int F4(List<Legszennyezettseg> l) => l.SelectMany(d => d.Orak).Max();
 
         static int F5(List<Legszennyezettseg> l) => l.Sum(d => d.Orak.Where(d => d < 100).Count());
 
-
         static double F6(List<Legszennyezettseg> l) => l.SelectMany(d => d.Orak).Average();
 
-        //static IEnumerable<int> F7(List<Legszennyezettseg> l)
-        //{
-        //    var x = l.Select(d => d.Orak);
-        //    return x;
-        //}
+        static List<int> F7(List<Legszennyezettseg> l)
+        {
+            var x = l.Select(d => d.Orak.Max()).ToList();
+            List<int> y;
+            foreach (var i in x)
+            {
+                if (i <= 60)
+                {
+                    y.Add(i);
+                }
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -58,12 +62,13 @@
             Console.WriteLine($"Az átlagos SO2 tartalom a hónapban: {Math.Round(F6(szennyezettseg), 4)}");
 
             Console.WriteLine("7. feladat");
-            //if (F7(szennyezettseg) <= 60)
-            //{
-
-            //}
-            //Console.WriteLine($"{}");
-
+            foreach (var i in F7(szennyezettseg))
+            {
+                if (i <= 60)
+                {
+                    Console.WriteLine(i);
+                }
+            }
         }
     }
 }
