@@ -4,12 +4,17 @@ namespace Legszegenyseg_20240212
 {
     internal class Program
     {
-        static Legszennyezettseg F3(List<Legszennyezettseg> l)
+        static List<int> F3(List<Legszennyezettseg> l)
         {
-            var x = l.MaxBy(d => d.Orak.Max());
-            
+            var x = new List<int>();
+            foreach (var i in l)
+            {
+                if (i.Orak.Any(d => d > 250))
+                {
+                    x.Add(i.Napok);
+                }
+            }
             return x;
-
         }
 
         static int F4(List<Legszennyezettseg> l) => l.SelectMany(d => d.Orak).Max();
@@ -18,18 +23,7 @@ namespace Legszegenyseg_20240212
 
         static double F6(List<Legszennyezettseg> l) => l.SelectMany(d => d.Orak).Average();
 
-        static List<int> F7(List<Legszennyezettseg> l)
-        {
-            var x = l.Select(d => d.Orak.Max()).ToList();
-            List<int> y;
-            foreach (var i in x)
-            {
-                if (i <= 60)
-                {
-                    y.Add(i);
-                }
-            }
-        }
+        static Legszennyezettseg F7(List<Legszennyezettseg> l) => l.FirstOrDefault(day => day.Orak.Max() <= 60);
 
         static void Main(string[] args)
         {
@@ -48,9 +42,17 @@ namespace Legszegenyseg_20240212
 
             //3. feladat
             using StreamWriter sw = new StreamWriter(@"..\..\..\src\UjSO2.txt");
-            sw.WriteLine($"{F3(szennyezettseg).Napok} |");
-
-
+            if (F3(szennyezettseg).Count > 0)
+            {
+                foreach (var i in F3(szennyezettseg))
+                {
+                    sw.WriteLine($"Március {i}.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("HIBA 404!!! Nincs olyan nap");
+            }
 
             Console.WriteLine("4. feladat");
             Console.WriteLine($"A legmagasabb SO2 tartalom {F4(szennyezettseg)} volt.");
@@ -62,12 +64,13 @@ namespace Legszegenyseg_20240212
             Console.WriteLine($"Az átlagos SO2 tartalom a hónapban: {Math.Round(F6(szennyezettseg), 4)}");
 
             Console.WriteLine("7. feladat");
-            foreach (var i in F7(szennyezettseg))
+            if (F7(szennyezettseg) != null)
             {
-                if (i <= 60)
-                {
-                    Console.WriteLine(i);
-                }
+                Console.WriteLine($"{F7(szennyezettseg).Napok}.");
+            }
+            else
+            {
+                Console.WriteLine("HIBA 404!!! Nem Volt ilyen!");
             }
         }
     }
