@@ -66,7 +66,7 @@ namespace Legszegenyseg_20240212
             Console.WriteLine("7. feladat");
             if (F7(szennyezettseg) != null)
             {
-                Console.WriteLine($"{F7(szennyezettseg).Napok}.");
+                Console.WriteLine($"{F7(szennyezettseg).Napok}. Napon volt.");
             }
             else
             {
